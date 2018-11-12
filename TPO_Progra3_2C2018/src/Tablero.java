@@ -1,4 +1,5 @@
 import java.*;
+import java.util.List;
 
 public class Tablero {
 	
@@ -9,12 +10,14 @@ public class Tablero {
 	private int rotacionesActuales = 0;
 	private int maxRotaciones = 0;
 	private Boolean Resuelto = false;
+	private List<Ficha> fichas;
 	
-	public Tablero(int cantidadFilas, int cantidadColumnas, int cantidadFichas) {
+	public Tablero(int cantidadFilas, int cantidadColumnas, int cantidadFichas, List<Ficha> fichas) {
 		super();
 		this.cantidadFilas = cantidadFilas;
 		this.cantidadColumnas = cantidadColumnas;
 		this.cantidadFichas = cantidadFichas;
+		this.fichas = fichas;
 		for(int i = 0; i<cantidadFilas;i++) {
 			for(int j = 0;j<cantidadColumnas;j++) {
 				this.tablero[i][j] = false;
@@ -79,5 +82,18 @@ public class Tablero {
 		Resuelto = resuelto;
 	}
 
+	public Boolean estaCompleto() {
+		
+		boolean espacioOcupado = true;
+		for(int i = 0; i<cantidadFilas;i++) {
+			for(int j = 0;j<cantidadColumnas;j++) {
+				espacioOcupado = espacioOcupado && this.tablero[i][j];
+				if(!espacioOcupado) {
+					return false;
+				}
+			}
+		}
+		return espacioOcupado;
+	}
 	
 }

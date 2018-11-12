@@ -7,7 +7,7 @@ public class Ficha {
 	private int cantidadFilas;
 	private int cantidadColumnas;
 	private List<EstructuraFicha> rotaciones ;
-	
+	private Integer size;
 	
 	public Ficha(int cantidadFilas, int cantidadColumnas, String[] matrizEstirada) {
 		super();
@@ -28,6 +28,7 @@ public class Ficha {
 		}
 
 		EstructuraFicha estructuraFichaOriginal = new EstructuraFicha(matriz);
+		this.size= estructuraFichaOriginal.getSize();
 		System.out.println(estructuraFichaOriginal);
 		System.out.println("largo ficha: "+ estructuraFichaOriginal.getSize());
 		rotaciones.add(estructuraFichaOriginal);
@@ -72,6 +73,8 @@ public class Ficha {
 		return rotaciones;
 	}
 	
-	
+	public Integer getSize() {
+		return size;
+	}
 	
 }

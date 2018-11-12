@@ -21,7 +21,6 @@ public class Main {
 		
 		String configuracion = obtenerConfiguracion();
 		Tablero tablero = parsearTablero(configuracion);
-		List<Ficha> fichas = parsearFichas(configuracion);
 
 
 	}
@@ -30,7 +29,9 @@ public class Main {
 		int cantidadFilas = Character.getNumericValue(configuracion.charAt(0));
 		int cantidadColumnas = Character.getNumericValue(configuracion.charAt(2));
 		int cantidadFichas = Character.getNumericValue(configuracion.charAt(4));
-		return null;
+		List<Ficha> fichas = parsearFichas(configuracion);
+		fichas.sort((Ficha f1, Ficha f2) -> f2.getSize().compareTo(f1.getSize() ));
+		return new Tablero(cantidadFilas, cantidadColumnas, cantidadFichas,fichas);
 	}
 
 	private static List<Ficha> parsearFichas(String configuracion) {
