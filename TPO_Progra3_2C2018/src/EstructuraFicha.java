@@ -133,4 +133,8 @@ public class EstructuraFicha {
 	public int getColumnas() {
 		return columnas;
 	}
+	
+	public boolean getValue(int fila, int columna) {
+		return this.matriz[fila][columna];	
+	}
 }

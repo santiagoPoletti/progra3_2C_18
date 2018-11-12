@@ -96,4 +96,41 @@ public class Tablero {
 		return espacioOcupado;
 	}
 	
+	public Boolean puedoColocarFicha(EstructuraFicha ficha,int filaActual,int columnaActual ) {
+		
+		boolean resultado = false;
+		if((this.cantidadFilas >= filaActual + ficha.getFilas()) && (this.cantidadColumnas >= columnaActual + ficha.getColumnas())) {
+			for(int i = 0; i < ficha.getFilas();i++) {
+				for(int j = 0; j < ficha.getColumnas();j++) {
+					if(this.tablero[i + filaActual][j + columnaActual]) {
+						if(!ficha.getValue(i,j)) {
+							resultado = true;
+						}
+						else {
+							resultado = false;
+						}
+					}
+					else {
+						resultado = true;
+					}
+					if(!resultado) {
+						return false;
+					}
+				}
+			}
+		}
+		return resultado;
+	}
+	
+	public void setFicha(EstructuraFicha ficha,int filaActual,int columnaActual ) {
+		
+		if(puedoColocarFicha(ficha, filaActual, columnaActual)) {
+			for(int i = 0; i < ficha.getFilas();i++) {
+				for(int j = 0; j < ficha.getColumnas();j++) {
+					this.tablero[i + filaActual][j + columnaActual] = ficha.getValue(i,j);
+				}
+			}
+		}
+	}
+	
 }
