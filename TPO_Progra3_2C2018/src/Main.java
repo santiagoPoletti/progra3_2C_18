@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,15 @@ public class Main {
 		
 		String configuracion = obtenerConfiguracion();
 		Tablero tablero = parsearTablero(configuracion);
+		boolean resultado = false;
+		resultado = rompeCabezasTetris(tablero,0,0,-1);
+		if(resultado) {
+			System.out.println("Se pudo resolver");
+		}
+		else {
+			System.out.println("No se pudo resolver");
+		}
+		
 
 
 	}
@@ -31,7 +41,9 @@ public class Main {
 		int cantidadFichas = Character.getNumericValue(configuracion.charAt(4));
 		List<Ficha> fichas = parsearFichas(configuracion);
 		fichas.sort((Ficha f1, Ficha f2) -> f2.getSize().compareTo(f1.getSize() ));
-		return new Tablero(cantidadFilas, cantidadColumnas, cantidadFichas,fichas);
+		Ficha[] fichasArray = new Ficha[fichas.size()];
+		fichasArray = (Ficha[]) fichas.toArray();
+		return new Tablero(cantidadFilas, cantidadColumnas, cantidadFichas,fichasArray);
 	}
 
 	private static List<Ficha> parsearFichas(String configuracion) {
@@ -65,5 +77,42 @@ public class Main {
 		return lines.get(0);
 	}
 
+	private static boolean rompeCabezasTetris(Tablero tablero,int fichaActual,int cantRotacionActual, int minimoRotaciones) {
+		
+		boolean haySolucion = false;
+		if(tablero.estaCompleto()) {
+			if(minimoRotaciones == -1 || cantRotacionActual < minimoRotaciones) {
+				minimoRotaciones = cantRotacionActual;
+			}
+		}
+		else {
+			while(!haySolucion && cantRotacionActual < minimoRotaciones && fichaActual < tablero.getCantidadFichas()) {
+				for (int i = 0; i < tablero.getCantidadFilas(); i++) {
+					for (int j = 0; j < tablero.getCantidadColumnas(); j++) {
+						Ficha fichaAct = tablero.getFicha(fichaActual);
+						if(fichaAct.esRotable(fichaActual)) {
+							for (int rotaciones = 0; rotaciones < fichaAct.getCantidadRotaciones(fichaActual); rotaciones++) {
+								EstructuraFicha ef = fichaAct.getEstructuraFicha(rotaciones);
+								if(tablero.puedoColocarFicha(ef, i, j)) {
+									tablero.colocarFicha(ef, i, j);
+									haySolucion = Main.rompeCabezasTetris(tablero, fichaActual + 1, cantRotacionActual + rotaciones, minimoRotaciones);
+									tablero.removerFicha(ef, i, j);
+								}
+							}
+						}
+						else {
+							EstructuraFicha ef = fichaAct.getEstructuraFicha(0);
+							if(tablero.puedoColocarFicha(ef, i, j)) {
+								tablero.colocarFicha(ef, i, j);
+								haySolucion = Main.rompeCabezasTetris(tablero, fichaActual + 1, cantRotacionActual, minimoRotaciones);
+								tablero.removerFicha(ef, i, j);
+							}
+						}
+					}
+				}
+			}
+		}
+		return haySolucion;
+	}
 
 }

@@ -77,4 +77,15 @@ public class Ficha {
 		return size;
 	}
 	
+	public boolean esRotable(int index) {
+		return this.rotaciones.get(index).esRotable();
+	}
+	
+	public int getCantidadRotaciones(int index) {
+		return this.rotaciones.size();
+	}
+	
+	public EstructuraFicha getEstructuraFicha(int index) {
+		return this.rotaciones.get(index);
+	}
 }

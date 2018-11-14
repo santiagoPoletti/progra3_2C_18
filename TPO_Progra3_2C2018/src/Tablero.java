@@ -1,5 +1,4 @@
-import java.*;
-import java.util.List;
+
 
 public class Tablero {
 	
@@ -10,9 +9,9 @@ public class Tablero {
 	private int rotacionesActuales = 0;
 	private int maxRotaciones = 0;
 	private Boolean Resuelto = false;
-	private List<Ficha> fichas;
+	private Ficha[] fichas;
 	
-	public Tablero(int cantidadFilas, int cantidadColumnas, int cantidadFichas, List<Ficha> fichas) {
+	public Tablero(int cantidadFilas, int cantidadColumnas, int cantidadFichas, Ficha[] fichas) {
 		super();
 		this.cantidadFilas = cantidadFilas;
 		this.cantidadColumnas = cantidadColumnas;
@@ -77,6 +76,15 @@ public class Tablero {
 	public Boolean getResuelto() {
 		return Resuelto;
 	}
+	
+	public Ficha[] getFichas(){
+		return this.fichas;
+	}
+	
+	public Ficha getFicha(int index){
+		Ficha ficha = this.fichas[index];
+		return ficha;
+	}
 
 	public void setResuelto(Boolean resuelto) {
 		Resuelto = resuelto;
@@ -96,7 +104,7 @@ public class Tablero {
 		return espacioOcupado;
 	}
 	
-	public Boolean puedoColocarFicha(EstructuraFicha ficha,int filaActual,int columnaActual ) {
+	public boolean puedoColocarFicha(EstructuraFicha ficha,int filaActual,int columnaActual ) {
 		
 		boolean resultado = false;
 		if((this.cantidadFilas >= filaActual + ficha.getFilas()) && (this.cantidadColumnas >= columnaActual + ficha.getColumnas())) {
@@ -122,7 +130,7 @@ public class Tablero {
 		return resultado;
 	}
 	
-	public void setFicha(EstructuraFicha ficha,int filaActual,int columnaActual ) {
+	public void colocarFicha(EstructuraFicha ficha,int filaActual,int columnaActual ) {
 		
 		if(puedoColocarFicha(ficha, filaActual, columnaActual)) {
 			for(int i = 0; i < ficha.getFilas();i++) {
@@ -131,6 +139,39 @@ public class Tablero {
 				}
 			}
 		}
+		System.out.println(this.tablero.toString());
+	}
+	
+	
+	public void removerFicha(EstructuraFicha ficha,int filaActual,int columnaActual ) {
+		
+		for(int i = 0; i < ficha.getFilas();i++) {
+			for(int j = 0; j < ficha.getColumnas();j++) {
+				if(this.tablero[i + filaActual][j + columnaActual] && ficha.getValue(i,j)) {
+					this.tablero[i + filaActual][j + columnaActual] = false;
+				}
+			}
+		}
+		System.out.println(this.tablero.toString());
+	}
+	
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+		
+		for (int i = 0; i < this.cantidadFilas; i++) {
+			buffer.append("|");
+			for (int j = 0; j < this.cantidadColumnas; j++) {
+				boolean elemento = this.tablero[i][j];
+				buffer.append(elemento ? "X" : " ");
+				buffer.append(" ");
+				if (j == this.cantidadColumnas - 1){
+					buffer.append("|");
+					buffer.append("\n");
+				}
+			}
+		}
+		return buffer.toString();
 	}
 	
 }
