@@ -81,8 +81,12 @@ public class Main {
 		boolean haySolucion = false;
 		System.out.println("Ejecución recursiva con: fichaActual =" + fichaActual + " cantidadRotacionActual =" + cantRotacionActual + " minimoRotaciones =" + minimoRotaciones);
 		if(tablero.estaCompleto()) {
-			if(minimoRotaciones == -1 || cantRotacionActual < minimoRotaciones) {
+			if(minimoRotaciones == -1 || cantRotacionActual <= minimoRotaciones) {
 				minimoRotaciones = cantRotacionActual;
+				if(minimoRotaciones == 0) {
+					System.out.println("cantidadRotacionActual =" + cantRotacionActual + " minimoRotaciones =" + minimoRotaciones);
+					return true;
+				}
 			}
 		}
 		else {
@@ -100,7 +104,14 @@ public class Main {
 								if(tablero.puedoColocarFicha(ef, i, j)) {
 									tablero.colocarFicha(ef, i, j);
 									haySolucion = Main.rompeCabezasTetris(tablero, fichaActual + 1, cantRotacionActual + r, minimoRotaciones);
-									tablero.removerFicha(ef, i, j);
+									if(!haySolucion) {
+										tablero.removerFicha(ef, i, j);
+									}
+									else {
+										System.out.println("Se pudo colocar la ficha :");
+										System.out.println(ef.toString());
+										System.out.println("En Fila " + i + " Columna " + j);
+									}
 									r++;
 								} 
 							}
@@ -111,13 +122,21 @@ public class Main {
 							if(tablero.puedoColocarFicha(ef, i, j)) {
 								tablero.colocarFicha(ef, i, j);
 								haySolucion = Main.rompeCabezasTetris(tablero, fichaActual + 1, cantRotacionActual, minimoRotaciones);
-								tablero.removerFicha(ef, i, j);
+								if(!haySolucion) {
+									tablero.removerFicha(ef, i, j);
+								}
+								else {
+									System.out.println("Se pudo colocar la ficha :");
+									System.out.println(ef.toString());
+									System.out.println("En Fila " + i + " Columna " + j);
+								}
 							}
 						}
 					}
 				}
 			}
 		}
+		System.out.println("cantidadRotacionActual =" + cantRotacionActual + " minimoRotaciones =" + minimoRotaciones);
 		return haySolucion;
 	}
 
