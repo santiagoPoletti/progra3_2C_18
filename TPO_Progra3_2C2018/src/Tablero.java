@@ -2,7 +2,7 @@
 
 public class Tablero {
 	
-	private Boolean[][] tablero;
+	private boolean[][] tablero;
 	private int cantidadFilas;
 	private int cantidadColumnas;
 	private int cantidadFichas;
@@ -17,6 +17,7 @@ public class Tablero {
 		this.cantidadColumnas = cantidadColumnas;
 		this.cantidadFichas = cantidadFichas;
 		this.fichas = fichas;
+		this.tablero = new boolean[cantidadFilas][cantidadColumnas];
 		for(int i = 0; i<cantidadFilas;i++) {
 			for(int j = 0;j<cantidadColumnas;j++) {
 				this.tablero[i][j] = false;
@@ -25,11 +26,11 @@ public class Tablero {
 		
 	}
 
-	public Boolean[][] getTablero() {
+	public boolean[][] getTablero() {
 		return tablero;
 	}
 
-	public void setTablero(Boolean[][] tablero) {
+	public void setTablero(boolean[][] tablero) {
 		this.tablero = tablero;
 	}
 

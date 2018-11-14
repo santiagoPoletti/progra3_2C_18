@@ -12,7 +12,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,8 +40,7 @@ public class Main {
 		int cantidadFichas = Character.getNumericValue(configuracion.charAt(4));
 		List<Ficha> fichas = parsearFichas(configuracion);
 		fichas.sort((Ficha f1, Ficha f2) -> f2.getSize().compareTo(f1.getSize() ));
-		Ficha[] fichasArray = new Ficha[fichas.size()];
-		fichasArray = (Ficha[]) fichas.toArray();
+		Ficha[] fichasArray  = fichas.stream().toArray(Ficha[]::new);
 		return new Tablero(cantidadFilas, cantidadColumnas, cantidadFichas,fichasArray);
 	}
 
