@@ -84,7 +84,7 @@ public class Main {
 			}
 		}
 		else {
-			while(!haySolucion && cantRotacionActual < minimoRotaciones && fichaActual < tablero.getCantidadFichas()) {
+			while(!haySolucion && (minimoRotaciones == -1 || cantRotacionActual < minimoRotaciones) && fichaActual < tablero.getCantidadFichas()) {
 				for (int i = 0; i < tablero.getCantidadFilas(); i++) {
 					for (int j = 0; j < tablero.getCantidadColumnas(); j++) {
 						Ficha fichaAct = tablero.getFicha(fichaActual);

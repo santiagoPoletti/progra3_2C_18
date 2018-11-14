@@ -136,7 +136,7 @@ public class Tablero {
 		if(puedoColocarFicha(ficha, filaActual, columnaActual)) {
 			for(int i = 0; i < ficha.getFilas();i++) {
 				for(int j = 0; j < ficha.getColumnas();j++) {
-					this.tablero[i + filaActual][j + columnaActual] = ficha.getValue(i,j);
+					this.tablero[i + filaActual][j + columnaActual] = this.tablero[i + filaActual][j + columnaActual] || ficha.getValue(i,j);
 				}
 			}
 		}
