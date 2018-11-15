@@ -172,6 +172,12 @@ public class Tablero {
 				}
 			}
 		}
+		buffer.append("rotacionesActuales:");
+		buffer.append(this.rotacionesActuales);
+		buffer.append("\n");
+		buffer.append("maxRotaciones:");
+		buffer.append(this.maxRotaciones);
+		
 		return buffer.toString();
 	}
 	
