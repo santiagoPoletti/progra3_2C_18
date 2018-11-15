@@ -159,7 +159,7 @@ public class Tablero {
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
-		
+		buffer.append("Tablero es:\n"); 
 		for (int i = 0; i < this.cantidadFilas; i++) {
 			buffer.append("|");
 			for (int j = 0; j < this.cantidadColumnas; j++) {

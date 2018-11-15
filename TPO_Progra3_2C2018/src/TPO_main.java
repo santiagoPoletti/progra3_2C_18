@@ -14,7 +14,7 @@ public class TPO_main {
 		    int cantidadFilas = Integer.parseInt(myLine.substring(0));
 		    int cantidadColumnas = Integer.parseInt(myLine.substring(2));
 		    int cantidadFichas = Integer.parseInt(myLine.substring(4));
-		    Tablero tablero = new Tablero(cantidadFilas,cantidadColumnas,cantidadFichas);
+//		    Tablero tablero = new Tablero(cantidadFilas,cantidadColumnas,cantidadFichas);
 		    String[] ficha = myLine.split(")");
 		    
 		}

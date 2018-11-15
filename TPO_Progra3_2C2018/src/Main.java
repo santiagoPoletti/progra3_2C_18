@@ -79,7 +79,7 @@ public class Main {
 	private static boolean rompeCabezasTetris(Tablero tablero,int fichaActual,int cantRotacionActual, int minimoRotaciones) {
 		
 		boolean haySolucion = false;
-		System.out.println("Ejecución recursiva con: fichaActual =" + fichaActual + " cantidadRotacionActual =" + cantRotacionActual + " minimoRotaciones =" + minimoRotaciones);
+		System.out.println("Ejecuciï¿½n recursiva con: fichaActual =" + fichaActual + " cantidadRotacionActual =" + cantRotacionActual + " minimoRotaciones =" + minimoRotaciones);
 		if(tablero.estaCompleto()) {
 			if(minimoRotaciones == -1 || cantRotacionActual <= minimoRotaciones) {
 				minimoRotaciones = cantRotacionActual;
@@ -91,6 +91,7 @@ public class Main {
 		}
 		else {
 			while(!haySolucion && (minimoRotaciones == -1 || cantRotacionActual < minimoRotaciones) && fichaActual < tablero.getCantidadFichas()) {
+				System.out.println(tablero.toString());
 				for (int i = 0; i < tablero.getCantidadFilas(); i++) {
 					for (int j = 0; j < tablero.getCantidadColumnas(); j++) {
 						System.out.println("Probando Ficha en Tablero: Fila ="+i+ " Columna = "+j);
@@ -137,6 +138,7 @@ public class Main {
 			}
 		}
 		System.out.println("cantidadRotacionActual =" + cantRotacionActual + " minimoRotaciones =" + minimoRotaciones);
+		System.out.println(tablero.toString());
 		return haySolucion;
 	}
 
