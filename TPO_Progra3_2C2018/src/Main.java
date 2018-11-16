@@ -23,13 +23,10 @@ public class Main {
 		String configuracion = obtenerConfiguracion();
 		Tablero tablero = parsearTablero(configuracion);
 		boolean resultado = false;
-		resultado = rompeCabezasTetris(tablero,0,0,-1);
-		if(resultado) {
-			System.out.println("Se pudo resolver");
-		}
-		else {
-			System.out.println("No se pudo resolver");
-		}
+		tablero.setRotacionesActuales(0);
+		tablero.setMinRotaciones(-1);
+		resultado = rompeCabezasTetris(tablero,0);
+		System.out.println("El tablero se completó con "+tablero.getMinRotaciones()+" rotaciones");
 		
 
 
@@ -64,7 +61,7 @@ public class Main {
 	}
 
 	private static String obtenerConfiguracion() throws IOException {
-		String strpath = "src/input.txt";
+		String strpath = "src/Ej2.txt";
 		CharsetDecoder dec = StandardCharsets.UTF_8.newDecoder().onMalformedInput(CodingErrorAction.IGNORE);
 		File file = new File(strpath);
 		Path path = Paths.get(file.toURI());
@@ -76,45 +73,45 @@ public class Main {
 		return lines.get(0);
 	}
 
-	private static boolean rompeCabezasTetris(Tablero tablero,int fichaActual,int cantRotacionActual, int minimoRotaciones) {
+	private static boolean rompeCabezasTetris(Tablero tablero,int fichaActual) {
 		
 		boolean haySolucion = false;
-		System.out.println("Ejecuciï¿½n recursiva con: fichaActual =" + fichaActual + " cantidadRotacionActual =" + cantRotacionActual + " minimoRotaciones =" + minimoRotaciones);
+		int cantRotacionActual = tablero.getRotacionesActuales();
+		int minimoRotaciones = tablero.getMinRotaciones();
+		System.out.println("Ejecucion recursiva con: fichaActual =" + fichaActual + " cantidadRotacionActual =" + cantRotacionActual + " minimoRotaciones =" + minimoRotaciones);
+		System.out.println(tablero.toString());
 		if(tablero.estaCompleto()) {
-			if(minimoRotaciones == -1 || cantRotacionActual <= minimoRotaciones) {
+			System.out.println("Se completó tablero: fichaActual =" + fichaActual + " cantidadRotacionActual =" + cantRotacionActual + " minimoRotaciones =" + minimoRotaciones);
+			if(minimoRotaciones == -1 || cantRotacionActual < minimoRotaciones) {
+				tablero.setMinRotaciones(cantRotacionActual);
 				minimoRotaciones = cantRotacionActual;
-				if(minimoRotaciones == 0) {
-					System.out.println("cantidadRotacionActual =" + cantRotacionActual + " minimoRotaciones =" + minimoRotaciones);
-					return true;
-				}
+				System.out.println("cantidadRotacionActual =" + cantRotacionActual + " minimoRotaciones =" + minimoRotaciones);
+				haySolucion = true;
 			}
+		return haySolucion;
 		}
 		else {
-			while(!haySolucion && (minimoRotaciones == -1 || cantRotacionActual < minimoRotaciones) && fichaActual < tablero.getCantidadFichas()) {
+			if((minimoRotaciones == -1 || cantRotacionActual < minimoRotaciones) && fichaActual < tablero.getCantidadFichas()) {
 				System.out.println(tablero.toString());
-				System.out.println("cantRotacionActual:" + cantRotacionActual);
 				for (int i = 0; i < tablero.getCantidadFilas(); i++) {
 					for (int j = 0; j < tablero.getCantidadColumnas(); j++) {
-						System.out.println("Probando Ficha en Tablero: Fila ="+i+ " Columna = "+j);
+						System.out.println("Probando Ficha "+fichaActual+" en Tablero: Fila ="+i+ " Columna = "+j);
+						System.out.println(tablero.toString());
 						Ficha fichaAct = tablero.getFicha(fichaActual);
 						List<EstructuraFicha> fichasRotadas = fichaAct.getRotaciones();
 						if(fichaAct.esRotable()) {
-							int rotaciones = 0;
+							int rotaciones = -1;
 							for (Iterator<EstructuraFicha> iterator = fichasRotadas.iterator(); iterator.hasNext();) {
 								EstructuraFicha ef = (EstructuraFicha) iterator.next();
+								rotaciones++;
 								System.out.println(ef.toString());
 								if(tablero.puedoColocarFicha(ef, i, j)) {
 									tablero.colocarFicha(ef, i, j);
-									haySolucion = Main.rompeCabezasTetris(tablero, fichaActual + 1, cantRotacionActual + rotaciones, minimoRotaciones);
-									if(!haySolucion) {
-										tablero.removerFicha(ef, i, j);
-									}
-									else {
-										System.out.println("Se pudo colocar la ficha :");
-										System.out.println(ef.toString());
-										System.out.println("En Fila " + i + " Columna " + j);
-									}
-									rotaciones++;
+									System.out.println(tablero.toString());
+									tablero.setRotacionesActuales(cantRotacionActual + rotaciones);
+									haySolucion = Main.rompeCabezasTetris(tablero, fichaActual + 1);
+									tablero.removerFicha(ef, i, j);
+									System.out.println(tablero.toString());
 								} 
 							}
 						}
@@ -123,22 +120,19 @@ public class Main {
 							System.out.println(ef.toString());
 							if(tablero.puedoColocarFicha(ef, i, j)) {
 								tablero.colocarFicha(ef, i, j);
-								haySolucion = Main.rompeCabezasTetris(tablero, fichaActual + 1, cantRotacionActual, minimoRotaciones);
-								if(!haySolucion) {
-									tablero.removerFicha(ef, i, j);
-								}
-								else {
-									System.out.println("Se pudo colocar la ficha :");
-									System.out.println(ef.toString());
-									System.out.println("En Fila " + i + " Columna " + j);
-								}
+								System.out.println(tablero.toString());
+								tablero.setRotacionesActuales(cantRotacionActual);
+								tablero.setMinRotaciones(minimoRotaciones);
+								haySolucion = Main.rompeCabezasTetris(tablero, fichaActual + 1);
+								tablero.removerFicha(ef, i, j);
+								System.out.println(tablero.toString());
 							}
 						}
 					}
 				}
 			}
 		}
-		System.out.println("cantidadRotacionActual =" + cantRotacionActual + " minimoRotaciones =" + minimoRotaciones);
+		System.out.println("cantidadRotacionActual =" + tablero.getRotacionesActuales() + " minimoRotaciones =" + tablero.getMinRotaciones());
 		System.out.println(tablero.toString());
 		return haySolucion;
 	}

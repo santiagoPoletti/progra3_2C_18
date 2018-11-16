@@ -7,7 +7,7 @@ public class Tablero {
 	private int cantidadColumnas;
 	private int cantidadFichas;
 	private int rotacionesActuales = 0;
-	private int maxRotaciones = 0;
+	private int minRotaciones = -1;
 	private Boolean Resuelto = false;
 	private Ficha[] fichas;
 	
@@ -66,12 +66,12 @@ public class Tablero {
 		this.rotacionesActuales = rotacionesActuales;
 	}
 
-	public int getMaxRotaciones() {
-		return maxRotaciones;
+	public int getMinRotaciones() {
+		return minRotaciones;
 	}
 
-	public void setMaxRotaciones(int maxRotaciones) {
-		this.maxRotaciones = maxRotaciones;
+	public void setMinRotaciones(int minRotaciones) {
+		this.minRotaciones = minRotaciones;
 	}
 
 	public Boolean getResuelto() {
@@ -140,7 +140,6 @@ public class Tablero {
 				}
 			}
 		}
-		System.out.println(this.tablero.toString());
 	}
 	
 	
@@ -153,7 +152,6 @@ public class Tablero {
 				}
 			}
 		}
-		System.out.println(this.tablero.toString());
 	}
 	
 	@Override
@@ -172,12 +170,6 @@ public class Tablero {
 				}
 			}
 		}
-		buffer.append("rotacionesActuales:");
-		buffer.append(this.rotacionesActuales);
-		buffer.append("\n");
-		buffer.append("maxRotaciones:");
-		buffer.append(this.maxRotaciones);
-		
 		return buffer.toString();
 	}
 	
